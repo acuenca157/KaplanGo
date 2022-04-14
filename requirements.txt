@@ -1,0 +1,14 @@
+certifi==2021.10.8
+charset-normalizer==2.0.12
+click==8.0.4
+colorama==0.4.4
+gTTS==2.2.4
+idna==3.3
+importlib-metadata==4.8.3
+mutagen==1.45.1
+requests==2.27.1
+six==1.16.0
+SpeechRecognition==3.8.1
+typing_extensions==4.1.1
+urllib3==1.26.9
+zipp==3.6.0
