@@ -2,7 +2,7 @@ import Speak as sp
 from threading import Thread
 import time
 import pvporcupine
-from pvrecorder import PvRecorder
+#from pvrecorder import PvRecorder
 import pyaudio
 from pyaudio import Stream
 import struct
