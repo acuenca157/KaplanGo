@@ -15,7 +15,6 @@ picovoice==2.1.2
 pipwin==0.5.2
 pvporcupine==2.1.2
 pvrhino==2.1.2
-PyAudio @ file:///C:/Users/KuenKa/pipwin/PyAudio-0.2.11-cp310-cp310-win_amd64.whl
 pyjsparser==2.7.1
 pyparsing==3.0.8
 PyPrind==2.11.3
