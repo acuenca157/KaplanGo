@@ -1,3 +1,4 @@
+import importlib
 import Speak as sp
 from threading import Thread
 import pyaudio
@@ -35,6 +36,11 @@ class Main(Thread):
         # Captura del audio del microfono
         return self.stream
 
+
+    def launchSkill(intent):
+        i = importlib.import_module(f"skills.{intent.scriptname}")
+        i.init(intent)
+
     def run(self):
         
         recognizer = sr.Recognizer()
@@ -51,7 +57,12 @@ class Main(Thread):
                     try:
                         audio = recognizer.listen(source)
                         text = recognizer.recognize_google(audio, language="es-ES")
-                        print(text)
+                        intent = db.getIntent(text);
+                        if intent != None:
+                            print(f"{intent.scriptName}, {intent.placeHolders}")
+                        else:
+                            print("No puedo hacer eso")
+                        
                     except:
                         print("Lo siento, no te he entendido")
 
