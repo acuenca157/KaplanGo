@@ -1,12 +1,15 @@
-import importlib
-import Speak as sp
+from genericpath import isfile
 from threading import Thread
+import importlib
 import pyaudio
 import struct
 import pvporcupine
 import speech_recognition as sr
+import traceback
 
+import soundManager as sp
 import dbcontroller as db
+import servicesManager as sm
 
 
 class Main(Thread):
@@ -31,6 +34,11 @@ class Main(Thread):
         self.running = True
         self.run()
 
+    def talk(self, text):
+        tts = gTTS(text, lang="es-es")
+        tts.save("audio.mp3")
+        playsound("audio.mp3")
+
     def get_next_audio_frame(self):
         # Método que devuelve el stream por audio_frame del microfono
         # Captura del audio del microfono
@@ -42,7 +50,6 @@ class Main(Thread):
         i.init(intent)
 
     def run(self):
-        
         recognizer = sr.Recognizer()
 
         while self.running:
@@ -51,6 +58,8 @@ class Main(Thread):
             pcm = struct.unpack_from("h" * self.porcupine.frame_length, pcm)
             keyword_index = self.porcupine.process(pcm)
             if keyword_index >= 0:
+                sp.Mixer().playSys("hello.wav")
+                sp.Mixer().playVoice("Que pasa")
                 print("Hola, que deseas?")
 
                 with sr.Microphone() as source:
@@ -60,10 +69,12 @@ class Main(Thread):
                         intent = db.getIntent(text);
                         if intent != None:
                             print(f"{intent.scriptName}, {intent.placeHolders}")
+                            # self.serMan.loadService(intent)
+                            sm.startIntent(intent)
                         else:
                             print("No puedo hacer eso")
-                        
-                    except:
+                    except Exception:
+                        print(traceback.format_exc())
                         print("Lo siento, no te he entendido")
 
         self.porcupine.delete()
@@ -72,9 +83,3 @@ class Main(Thread):
         self.running = False
 
 main = Main()
-
-#a = Main()
-b = sp.Speaker()
-
-#a.start()
-b.start()

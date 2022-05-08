@@ -1,24 +1,37 @@
 import wikipedia
+import intent
+import soundManager as sm
 
 wikipedia.set_lang("es")
 
 
-class Wikipedia(object):
-    __instance = None
+#class Skill(threading.Thread):
+class Skill():
 
-    def __new__(cls):
-        if Wikipedia.__instance is None:
-            Wikipedia.__instance = object.__new__(cls)
-        return Wikipedia.__instance
+    # Contruye el objeto
+    def __init__(self, intent):
+        self.intent = intent
+        self.init(self.intent)
+    
+    # Ejecuta el hilo
+    def run(self) -> None:
+        self.init(self.intent)
 
-    def init(self, intent):
-        search = intent.placeholder['search']
+    @staticmethod
+    def init(intent):
+        search = intent.placeHolders['search']
         result = wikipedia.summary(search)
+        print(result)
+        try:
+            sm.Mixer().playVoice(result)
+        except:
+            print("He petao")
+            pass
 
-        return result
-
-    def skill_exit(self):
+    @staticmethod
+    def skill_output():
         pass
-
-    def kill(self):
+    
+    @staticmethod
+    def kill():
         pass
