@@ -1,11 +1,15 @@
 from genericpath import isfile
 from threading import Thread
 import importlib
+
+import playsound as playsound
 import pyaudio
 import struct
 import pvporcupine
 import speech_recognition as sr
 import traceback
+
+from gtts import gTTS
 
 import soundManager as sp
 import dbcontroller as db
@@ -59,7 +63,7 @@ class Main(Thread):
             keyword_index = self.porcupine.process(pcm)
             if keyword_index >= 0:
                 sp.Mixer().playSys("hello.wav")
-                sp.Mixer().playVoice("Que pasa")
+                # sp.Mixer().playVoice("Que pasa")
                 print("Hola, que deseas?")
 
                 with sr.Microphone() as source:
@@ -76,6 +80,7 @@ class Main(Thread):
                     except Exception:
                         print(traceback.format_exc())
                         print("Lo siento, no te he entendido")
+                        pass
 
         self.porcupine.delete()
 

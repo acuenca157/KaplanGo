@@ -20,11 +20,14 @@ class Skill():
     @staticmethod
     def init(intent):
         search = intent.placeHolders['search']
-        result = wikipedia.summary(search)
-        print(result)
         try:
+            result = wikipedia.summary(search, sentences=1)
+            print(result)
             sm.Mixer().playVoice(result)
-        except:
+        except wikipedia.exceptions.DisambiguationError as error:
+            print("Muchos resultados coincidentes, se mas preciso anda")
+            pass
+        except Exception as e:
             print("He petao")
             pass
 
