@@ -62,6 +62,7 @@ class Main(Thread):
             pcm = struct.unpack_from("h" * self.porcupine.frame_length, pcm)
             keyword_index = self.porcupine.process(pcm)
             if keyword_index >= 0:
+                sp.Mixer().stopAll()
                 sp.Mixer().playSys("hello.wav")
                 sp.Mixer().playVoice("Ey")
                 print("Hola, que deseas?")
@@ -78,7 +79,6 @@ class Main(Thread):
                         else:
                             print("No puedo hacer eso")
                     except Exception:
-                        print(traceback.format_exc())
                         print("Lo siento, no te he entendido")
 
         self.porcupine.delete()

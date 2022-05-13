@@ -24,14 +24,18 @@ class Mixer(object):
         self.c = None # System
 
     def playMusic(self, file):
-        if self.a is AudioFile:
-            self.a.kill()
+        try:
+            del self.a
+        except Exception as e:
+            pass
         self.a = AudioFile(file)
         self.a.start()
     
     def playVoice(self, text):
-        if self.b is AudioFile:
-            self.b.kill()
+        try:
+            del self.b
+        except Exception as e:
+            pass
         mp3_fp = BytesIO()
         tts = gTTS(text, lang="es-es")
         tts.write_to_fp(mp3_fp)
@@ -40,15 +44,25 @@ class Mixer(object):
         self.b.start()
     
     def playSys(self, file):
-        if self.c is AudioFile:
-            self.c.kill()
+        try:
+            del self.c
+        except Exception as e:
+            pass
         self.c = AudioFile(file)
         self.c.start()
 
     def stopAll(self):
-        if self.a is AudioFile:
-            self.a.kill()
-        if self.b is AudioFile:
-            self.b.kill()
-        if self.c is AudioFile:
-            self.c.kill()
+        try:
+            del self.a
+        except:
+            print("No he podidio parar a A")
+        
+        try:
+            del self.b
+        except:
+            print("No he podidio parar a B")
+
+        try:
+            del self.c
+        except:
+            print("No he podidio parar a C")
