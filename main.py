@@ -63,7 +63,7 @@ class Main(Thread):
             keyword_index = self.porcupine.process(pcm)
             if keyword_index >= 0:
                 sp.Mixer().playSys("hello.wav")
-                # sp.Mixer().playVoice("Que pasa")
+                sp.Mixer().playVoice("Ey")
                 print("Hola, que deseas?")
 
                 with sr.Microphone() as source:
@@ -80,7 +80,6 @@ class Main(Thread):
                     except Exception:
                         print(traceback.format_exc())
                         print("Lo siento, no te he entendido")
-                        pass
 
         self.porcupine.delete()
 

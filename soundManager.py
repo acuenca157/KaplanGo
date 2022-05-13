@@ -3,6 +3,7 @@ from io import BytesIO
 from AudioFile import AudioFile
 import time
 from gtts import gTTS
+from pydub import AudioSegment
 
 class Mixer(object):
 
@@ -33,8 +34,9 @@ class Mixer(object):
             self.b.kill()
         mp3_fp = BytesIO()
         tts = gTTS(text, lang="es-es")
-        filename = "talk.wav"
-        self.b = AudioFile(tts.write_to_fp(mp3_fp), isFile=False)
+        tts.write_to_fp(mp3_fp)
+        mp3_fp.seek(0)
+        self.b = AudioFile(mp3_fp)
         self.b.start()
     
     def playSys(self, file):
