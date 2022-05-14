@@ -28,20 +28,13 @@ class Skill():
 
     @staticmethod
     def init(intent):
-        os.remove("song.mp3")
         search = intent.placeHolders['song']
         query_string = parse.urlencode({'search_query': search})
         html_content = request.urlopen('https://www.youtube.com/results?' + query_string)
         search_results = re.findall(r"watch\?v=(\S{11})", html_content.read().decode())
-        print(search_results)
-        video_url = "https://www.youtube.com/watch?v=" + search_results[0]
-        print(video_url)
-        with YoutubeDL(ydl_options) as ydl:
-            ydl.download([video_url])
-        for file in os.listdir("./"):
-            if file.endswith(".webm") | file.endswith(".m4a"):
-                os.rename(file, "song.mp3")
-        sm.Mixer.playMusic("song.mp3")
+        video_url = "https://www.youtube.com/watch?v="+"{}".format(search_results[0])
+
+        sm.Mixer().playUrl(video_url)
 
     @staticmethod
     def skill_output():
