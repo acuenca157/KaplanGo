@@ -15,6 +15,7 @@ class Mixer(object):
     __instance = None
 
     def __new__(cls):
+        print("New")
         if Mixer.__instance is None:
             Mixer.__instance = object.__new__(cls)
         return Mixer.__instance

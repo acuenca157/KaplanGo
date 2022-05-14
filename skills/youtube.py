@@ -35,6 +35,7 @@ class Skill():
         with youtube_dl.YoutubeDL() as ydl:
             info_dict = ydl.extract_info(video_url, download=False)
             video_title = info_dict.get('title', None)
+            sm.Mixer().playVoice(f"Reproduciendo {video_title}")
             
 
         sm.Mixer().playUrl(video_url)
