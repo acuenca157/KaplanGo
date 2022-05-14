@@ -12,10 +12,9 @@ class AudioFile(threading.Thread):
 
     def run(self):
         self.play_obj = playback._play_with_simpleaudio(self.audio)
-        #play(self.audio)
 
     def kill(self):
         self.play_obj.stop()
     
     def __del__(self):
-        self.kill()
+        pass
