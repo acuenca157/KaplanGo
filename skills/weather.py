@@ -1,9 +1,11 @@
+from os import O_TEMPORARY
 import pyowm
 from pyowm import OWM
 from pyowm.utils import config
 from pyowm.utils import timestamps
 from pyowm.utils.config import get_default_config
-import json
+import soundManager as sm
+
 config_dict = get_default_config()
 config_dict['language'] = 'es'  # your language here, eg. French
 
@@ -27,18 +29,23 @@ class Skill():
         w = observation.weather
 
         # w.detailed_status  # 'clouds'
+        detailed = w.detailed_status
+        print(detailed) 
         # w.wind()  # {'speed': 4.6, 'deg': 330}
-        wind = json.load(w.wind())
+        wind = w.wind()
+        print(wind)
         # w.humidity  # 87
         # w.temperature('celsius')  # {'temp_max': 10.5, 'temp': 9.7, 'temp_min': 9.0}
-        temp = json.load(w.temperature('celsius'))
+        temp = w.temperature('celsius')
+        print(temp)
         # w.rain  # {}
         # w.heat_index  # None
         # w.clouds  # 75
-        output = f"El tiempo actualmente es {w.detailed_status} " \
-                 f"con una velocidad del viento de {wind['speed']} metros por segundo." \
+        output = f"El tiempo actualmente es {detailed} " \
+                 f"con una velocidad del viento de {wind['speed']} km/h. " \
                  f"La temperatura del ambiente es de {temp['temp']} ºC"
-        return output
+        print(output)
+        sm.Mixer().playVoice(output)
 
     @staticmethod
     def skill_output():
