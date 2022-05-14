@@ -1,7 +1,6 @@
 import os
 
-# import youtube_dl
-from yt_dlp import YoutubeDL
+import youtube_dl
 import re
 from urllib import parse, request
 import soundManager as sm
@@ -33,6 +32,9 @@ class Skill():
         html_content = request.urlopen('https://www.youtube.com/results?' + query_string)
         search_results = re.findall(r"watch\?v=(\S{11})", html_content.read().decode())
         video_url = "https://www.youtube.com/watch?v="+"{}".format(search_results[0])
+        with youtube_dl.YoutubeDL() as ydl:
+            info_dict = ydl.extract_info(video_url, download=False)
+            video_title = info_dict.get('title', None)
 
         sm.Mixer().playUrl(video_url)
 
