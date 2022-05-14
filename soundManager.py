@@ -1,11 +1,10 @@
 from doctest import FAIL_FAST
 from io import BytesIO
 from AudioFile import AudioFile
+from vlcPlayer import vlcPlayer
 import time
 from gtts import gTTS
 from pydub import AudioSegment
-import vlc
-import pafy
 
 class Mixer(object):
 
@@ -24,18 +23,15 @@ class Mixer(object):
         self.a = None # Music
         self.b = None # Voice
         self.c = None # System
-        self.media = None # Urls
+        self.d = None # VLC
 
     def playUrl(self, url):
         try:
-            self.media.stop()
-        except:
+            del self.d
+        except Exception as e:
             pass
-        video = pafy.new(url)
-        videolink = video.getbestaudio()
-
-        self.media = vlc.MediaPlayer(videolink.url)
-        self.media.play()
+        self.d = vlcPlayer(url)
+        self.d.start()
 
     def playMusic(self, file):
         try:
@@ -82,6 +78,6 @@ class Mixer(object):
             print("No he podidio parar a C")
 
         try:
-            self.media.stop()
+            del self.d
         except:
-            print("No he podidio parar a Media")
+            print("No he podidio parar a D")
