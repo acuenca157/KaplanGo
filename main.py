@@ -78,7 +78,8 @@ class Main(Thread):
                             sm.startIntent(intent)
                         else:
                             print("No puedo hacer eso")
-                    except Exception:
+                    except Exception as e:
+                        print(e)
                         print("Lo siento, no te he entendido")
 
         self.porcupine.delete()

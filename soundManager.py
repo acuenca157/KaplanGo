@@ -4,6 +4,8 @@ from AudioFile import AudioFile
 import time
 from gtts import gTTS
 from pydub import AudioSegment
+import vlc
+import pafy
 
 class Mixer(object):
 
@@ -22,6 +24,18 @@ class Mixer(object):
         self.a = None # Music
         self.b = None # Voice
         self.c = None # System
+        self.media = None # Urls
+
+    def playUrl(self, url):
+        try:
+            self.media.stop()
+        except:
+            pass
+        video = pafy.new(url)
+        videolink = video.getbestaudio()
+
+        self.media = vlc.MediaPlayer(videolink.url)
+        self.media.play()
 
     def playMusic(self, file):
         try:
@@ -66,3 +80,8 @@ class Mixer(object):
             del self.c
         except:
             print("No he podidio parar a C")
+
+        try:
+            self.media.stop()
+        except:
+            print("No he podidio parar a Media")
