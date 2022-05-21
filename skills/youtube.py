@@ -4,6 +4,7 @@ import youtube_dl
 import re
 from urllib import parse, request
 import soundManager as sm
+import time
 
 ydl_options = {
     'format': 'mp3/bestaudio',
@@ -37,7 +38,7 @@ class Skill():
             video_title = info_dict.get('title', None)
             sm.Mixer().playVoice(f"Reproduciendo {video_title}")
             
-
+        time.sleep(6.5)
         sm.Mixer().playUrl(video_url)
 
     @staticmethod

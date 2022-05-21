@@ -14,6 +14,7 @@ from gtts import gTTS
 import soundManager as sp
 import dbcontroller as db
 import servicesManager as sm
+import time
 
 
 class Main(Thread):
@@ -64,6 +65,7 @@ class Main(Thread):
             if keyword_index >= 0:
                 sp.Mixer().stopAll()
                 sp.Mixer().playSys("hello.wav")
+                time.sleep(0.5)
                 sp.Mixer().playVoice("Ey")
                 print("Hola, que deseas?")
 

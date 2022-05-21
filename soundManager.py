@@ -6,8 +6,8 @@ import time
 from gtts import gTTS
 from pydub import AudioSegment
 
-class Mixer(object):
 
+class Mixer(object):
     # crear los canales
     # metodos de asignacion a los canales preestablecidos (musica, voz, sistema)
     # boton del pánico
@@ -19,12 +19,12 @@ class Mixer(object):
         if Mixer.__instance is None:
             Mixer.__instance = object.__new__(cls)
         return Mixer.__instance
-    
+
     def __init__(self) -> None:
-        self.a = None # Music
-        self.b = None # Voice
-        self.c = None # System
-        self.d = None # VLC
+        self.a = None  # Music
+        self.b = None  # Voice
+        self.c = None  # System
+        self.d = None  # VLC
 
     def playUrl(self, url):
         try:
@@ -41,7 +41,7 @@ class Mixer(object):
             pass
         self.a = AudioFile(file)
         self.a.start()
-    
+
     def playVoice(self, text):
         try:
             del self.b
@@ -53,7 +53,7 @@ class Mixer(object):
         mp3_fp.seek(0)
         self.b = AudioFile(mp3_fp)
         self.b.start()
-    
+
     def playSys(self, file):
         try:
             del self.c
@@ -67,7 +67,7 @@ class Mixer(object):
             del self.a
         except:
             print("No he podidio parar a A")
-        
+
         try:
             del self.b
         except:
