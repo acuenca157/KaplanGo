@@ -5,6 +5,7 @@ from vlcPlayer import vlcPlayer
 import time
 from gtts import gTTS
 from pydub import AudioSegment
+import pygame.mixer as pymixer
 
 
 class Mixer(object):
@@ -21,10 +22,16 @@ class Mixer(object):
         return Mixer.__instance
 
     def __init__(self) -> None:
+        # 0 = Voice, 1 = System, 2 = Other
+        pymixer.init()
+
+        
+        """
         self.a = None  # Music
         self.b = None  # Voice
         self.c = None  # System
         self.d = None  # VLC
+        """
 
     def playUrl(self, url):
         try:
@@ -34,35 +41,48 @@ class Mixer(object):
         self.d = vlcPlayer(url)
         self.d.start()
 
-    def playMusic(self, file):
-        try:
-            del self.a
-        except Exception as e:
-            pass
-        self.a = AudioFile(file)
-        self.a.start()
-
     def playVoice(self, text):
-        try:
+        """try:
             del self.b
         except Exception as e:
             pass
+        """
+        pymixer.Channel(0).stop()
         mp3_fp = BytesIO()
         tts = gTTS(text, lang="es-es")
+        tts.save("talk.mp3")
         tts.write_to_fp(mp3_fp)
         mp3_fp.seek(0)
-        self.b = AudioFile(mp3_fp)
-        self.b.start()
+        sound = AudioSegment.from_file(mp3_fp)
+        wav_fp = sound.export(mp3_fp, format = "wav")
+        pymixer.music.load(wav_fp)
+        pymixer.music.play()
+        # self.b = AudioFile(mp3_fp)
+        # self.b.start()
 
     def playSys(self, file):
+        pymixer.Channel(1).stop()
+        pymixer.Channel(1).play(pymixer.Sound(file))
+        """
         try:
             del self.c
         except Exception as e:
             pass
         self.c = AudioFile(file)
         self.c.start()
+        """
+    def playOther(self, file):
+        pymixer.Channel(2).stop()
+        pymixer.Channel(2).play(pymixer.Sound(file))
 
     def stopAll(self):
+        pymixer.stop()
+        try:
+            del self.d
+        except:
+            print("No he podidio parar a D")
+
+        """
         try:
             del self.a
         except:
@@ -77,8 +97,6 @@ class Mixer(object):
             del self.c
         except:
             print("No he podidio parar a C")
-
-        try:
-            del self.d
-        except:
-            print("No he podidio parar a D")
+        """
+        
+        
