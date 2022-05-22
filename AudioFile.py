@@ -21,6 +21,7 @@ class AudioFile(threading.Thread):
         self.join()
 
     def __del__(self):
+        print(self.get_id())
         self.kill()
 
     def get_id(self):
