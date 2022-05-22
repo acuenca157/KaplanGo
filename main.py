@@ -49,7 +49,6 @@ class Main(Thread):
         # Captura del audio del microfono
         return self.stream
 
-
     def launchSkill(intent):
         i = importlib.import_module(f"skills.{intent.scriptname}")
         i.init(intent)
@@ -88,5 +87,6 @@ class Main(Thread):
 
     def stop(self):
         self.running = False
+
 
 main = Main()
