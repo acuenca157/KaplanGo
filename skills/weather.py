@@ -24,23 +24,23 @@ class Skill():
 
     @staticmethod
     def init(intent):
-        # Search for current weather in London (Great Britain) and get details
+        # Buscamos el tiempo por la ciudad que obtenemos por el comando por voz
         observation = mgr.weather_at_place(intent.placeHolders['city'])
         w = observation.weather
 
-        # w.detailed_status  # 'clouds'
+        # Obtenemos la descripción del tiempo
         detailed = w.detailed_status
-        print(detailed) 
-        # w.wind()  # {'speed': 4.6, 'deg': 330}
+        print(detailed)
+
+        # Obtenemos velocidad del viento
         wind = w.wind()
         print(wind)
-        # w.humidity  # 87
-        # w.temperature('celsius')  # {'temp_max': 10.5, 'temp': 9.7, 'temp_min': 9.0}
+
+        # Obtenemos temperatura media en grados celsius
         temp = w.temperature('celsius')
         print(temp)
-        # w.rain  # {}
-        # w.heat_index  # None
-        # w.clouds  # 75
+
+        # Formamos la cadena de salida para ser reproducida
         output = f"El tiempo actualmente es {detailed} " \
                  f"con una velocidad del viento de {wind['speed']} km/h. " \
                  f"La temperatura del ambiente es de {temp['temp']} ºC"

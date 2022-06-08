@@ -28,11 +28,22 @@ class Skill():
 
     @staticmethod
     def init(intent):
+        # obtenemos la busqueda por voz
         search = intent.placeHolders['song']
+
+        # preparamos el parametro de la url
         query_string = parse.urlencode({'search_query': search})
+
+        # obtenemos los resultados del html de la busqueda
         html_content = request.urlopen('https://www.youtube.com/results?' + query_string)
+
+        # obtenemos el id de todos los videos de la busqueda
         search_results = re.findall(r"watch\?v=(\S{11})", html_content.read().decode())
+
+        # reconstruimos la url del primer video
         video_url = "https://www.youtube.com/watch?v="+"{}".format(search_results[0])
+
+        # pasamos la url a VLC y se reproduce.
         with youtube_dl.YoutubeDL() as ydl:
             info_dict = ydl.extract_info(video_url, download=False)
             video_title = info_dict.get('title', None)

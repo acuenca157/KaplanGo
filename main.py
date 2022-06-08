@@ -21,12 +21,14 @@ class Main(Thread):
     # Variables del objeto porcupine que nos permite obtener y procesar el wakeword
     path_custom_word = 'picovoice/wake_word/Hey-Kaplan_es_windows_v2_1_0.ppn'
 
+    #Objeto del modelo que con los archivos cargados, permite procesar el wakeword
     porcupine = pvporcupine.create(
         access_key='OZWTKpdX4XPqZaPS5JM76gPLBCkc5Bk6sqWgq+mMmonoZ2Mlj7HcfQ==',
         keyword_paths=['picovoice/wake_word/Hey-Kaplan_es_windows_v2_1_0.ppn'],
         model_path='picovoice/wake_word/porcupine_params_es.pv'
     )
 
+    #Objeto que permite el stream continuo de bytes de audio para su procesamiento por el objeto porcupine
     p = pyaudio.PyAudio()
     stream = p.open(format=pyaudio.paInt16,
                     channels=1,
@@ -56,6 +58,8 @@ class Main(Thread):
     def run(self):
         recognizer = sr.Recognizer()
 
+        #Ciclo infinito donde el objeto porcupine procesa si se ha dicho la wakeword o no.
+        #En caso positivo, se lanza los diferentes sonidos y el proceso de escucha de los comandos.
         while self.running:
             stream = self.get_next_audio_frame()
             pcm = stream.read(self.porcupine.frame_length)
