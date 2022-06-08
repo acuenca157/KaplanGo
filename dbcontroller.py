@@ -32,26 +32,17 @@ def createTable():
         """CREATE TABLE IF NOT EXISTS commands (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 command TEXT,
-                script TEXT,
-                priority INT
-        )"""
-    )
-
-    cursor.execute(
-        """CREATE TABLE IF NOT EXISTS services (
-                id TEXT,
-                name TEXT,
-                priority INT
+                script TEXT
         )"""
     )
 
     conn.commit()
     conn.close()
 
-def createCommand(mycommand, myscript, priority):
+def createCommand(mycommand, myscript):
     conn = sql.connect("commands.db")
     cursor = conn.cursor()
-    instruction = f"INSERT INTO commands (command, script, priority) VALUES ('{mycommand}', '{myscript}', {priority});"
+    instruction = f"INSERT INTO commands (command, script) VALUES ('{mycommand}', '{myscript}');"
     cursor.execute(instruction)
     conn.commit()
     conn.close
@@ -75,8 +66,8 @@ def removeCommand(id):
     conn.close
 
 
-def createIntent(scriptName, onlySlots, userSlots, priority):
-    intent = Intent.Intent(scriptName, onlySlots, userSlots, priority)
+def createIntent(scriptName, onlySlots, userSlots):
+    intent = Intent.Intent(scriptName, onlySlots, userSlots)
     return intent
 
 
@@ -102,7 +93,7 @@ def getIntent(inputCommand):
             userSlots = None
 
         if clearCommand in inputCommand:
-            intent = createIntent(c[2], slots, userSlots, c[3])
+            intent = createIntent(c[2], slots, userSlots)
             return intent
     
     return None
@@ -123,7 +114,7 @@ def addSkillRecord(intent):
     id = getKey()
     conn = sql.connect("commands.db")
     cursor = conn.cursor()
-    instruction = f"INSERT INTO services VALUES ('{id}', '{intent.scriptName}', {intent.priority})"
+    instruction = f"INSERT INTO services VALUES ('{id}', '{intent.scriptName}')"
     cursor.execute(instruction)
     conn.commit()
     conn.close
@@ -183,26 +174,26 @@ def getKey():
 if __name__ == '__main__':
     # createDB()
     createTable()
-    createCommand("quien fue {search}", "wikipedia", 0)
-    createCommand("quien es {search}", "wikipedia", 0)
-    createCommand("dame informacion sobre {search}", "wikipedia", 0)
-    createCommand("dame informacion de {search}", "wikipedia", 0)
-    createCommand("hablame de {search}", "wikipedia", 0)
-    createCommand("dime quien es {search}", "wikipedia", 0)
-    createCommand("que es {search}", "wikipedia", 0)
-    createCommand("que tiempo hace hoy en {city}", "weather", 0)
-    createCommand("que tiempo hace en {city}", "weather", 0)
-    createCommand("que tiempo hace aqui en {city}", "weather", 0)
-    createCommand("cual es el tiempo en {city}", "weather", 0)
-    createCommand("reproduce {song}", "youtube", 0)
-    createCommand("reproduce la cancion {song}", "youtube", 0)
-    createCommand("pon {song}", "youtube", 0)
-    createCommand("pon la cancion {song}", "youtube", 0)
-    createCommand("dime noticias de {news}", "news", 0)
-    createCommand("dime una broma", "jokes", 0)
-    createCommand("cuentame un chiste", "jokes", 0)
-    createCommand("cuentame una broma", "jokes", 0)
-    createCommand("dime un chiste", "jokes", 0)
+    createCommand("quien fue {search}", "wikipedia")
+    createCommand("quien es {search}", "wikipedia")
+    createCommand("dame informacion sobre {search}", "wikipedia")
+    createCommand("dame informacion de {search}", "wikipedia")
+    createCommand("hablame de {search}", "wikipedia")
+    createCommand("dime quien es {search}", "wikipedia")
+    createCommand("que es {search}", "wikipedia")
+    createCommand("que tiempo hace hoy en {city}", "weather")
+    createCommand("que tiempo hace en {city}", "weather")
+    createCommand("que tiempo hace aqui en {city}", "weather")
+    createCommand("cual es el tiempo en {city}", "weather")
+    createCommand("reproduce {song}", "youtube")
+    createCommand("reproduce la cancion {song}", "youtube")
+    createCommand("pon {song}", "youtube")
+    createCommand("pon la cancion {song}", "youtube")
+    createCommand("dime noticias de {news}", "news")
+    createCommand("dime una broma", "jokes")
+    createCommand("cuentame un chiste", "jokes")
+    createCommand("cuentame una broma", "jokes")
+    createCommand("dime un chiste", "jokes")
     # readRows()
     # removeCommand(4)
     # intent = getCommand("reproduce can't stop the feeling")

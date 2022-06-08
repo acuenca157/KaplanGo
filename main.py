@@ -71,7 +71,7 @@ class Main(Thread):
                     try:
                         audio = recognizer.listen(source)
                         text = recognizer.recognize_google(audio, language="es-ES")
-                        intent = db.getIntent(text);
+                        intent = db.getIntent(text)
                         if intent != None:
                             print(f"{intent.scriptName}, {intent.placeHolders}")
                             # self.serMan.loadService(intent)

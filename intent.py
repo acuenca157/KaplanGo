@@ -1,8 +1,7 @@
 class Intent:
 
-    def __init__(self, scriptName, skillsPlaceholders, skillsUser, priority) -> None:
+    def __init__(self, scriptName, skillsPlaceholders, skillsUser) -> None:
         self.scriptName = scriptName
-        self.priority = priority
         if skillsUser != None:
             self.placeHolders = Intent.getPlaceHolders(skillsPlaceholders, skillsUser)
         else:
